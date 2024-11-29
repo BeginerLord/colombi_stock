@@ -9,7 +9,7 @@ export interface ProductModel {
     unit?: string;
     code: string;
 }
-export type ProducModeltDto = Omit<ProductModel,"id_">;
+export type ProductModeltDto = Omit<ProductModel,"id_">;
 export type UpdateProductModel= Partial<ProductModel>;
 
 export type ProductCosts = {
