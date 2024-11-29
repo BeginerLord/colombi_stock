@@ -4,10 +4,15 @@ export interface PaginatedResponse<T> {
     pageNumber: number;
     pageSize: number;
     sort: {
-      empty: boolean;
-      sorted: boolean;
-      unsorted: boolean;
-    };
+      direction: string;
+      nullHandling: string;
+      ascending: boolean;
+      property: string;
+      ignoreCase: boolean;
+    }[];
+    offset: number;
+    paged: boolean;
+    unpaged: boolean;
   };
   totalPages: number;
   totalElements: number;
@@ -15,10 +20,12 @@ export interface PaginatedResponse<T> {
   size: number;
   number: number;
   sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
+    direction: string;
+    nullHandling: string;
+    ascending: boolean;
+    property: string;
+    ignoreCase: boolean;
+  }[];
   numberOfElements: number;
   first: boolean;
   empty: boolean;
