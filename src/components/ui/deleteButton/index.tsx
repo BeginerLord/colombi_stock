@@ -7,7 +7,7 @@ interface DeleteButtonProps {
   const DeleteButton: React.FC<DeleteButtonProps> = ({ onDelete }) => (
     <Button
       variant="contained"
-      style={{ backgroundColor: 'red', color: 'white' }}
+      style={{ backgroundColor: 'red', color: 'white',marginLeft:'2rem' }}
       onClick={onDelete}
     >
       Eliminar

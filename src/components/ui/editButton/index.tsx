@@ -7,7 +7,7 @@ interface EditButtonProps {
 const EditButton: React.FC<EditButtonProps> = ({ onEdit }) => (
   <Button
     variant="contained"
-    style={{ marginRight: '8px', backgroundColor: 'white', color: 'blue', border: '1px solid blue' }}
+    style={{ marginRight: '8px', backgroundColor: 'white', color: 'blue', border: '1px solid blue', marginLeft:'3rem' }}
     onClick={onEdit}
   >
     Editar

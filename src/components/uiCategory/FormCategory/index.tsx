@@ -48,7 +48,7 @@ const RegisterCategory = () => {
         />
         {errors.code && <span>This field is required</span>}
 
-        <ButtonComponet name="Enviar" key="submit" />
+        <ButtonComponet name="Enviar" type="submit" />
       </form>
     </div>
   );
