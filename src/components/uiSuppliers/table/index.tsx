@@ -24,10 +24,12 @@ const TableSuppliers = () => {
     UseGetSuppliersByEmail(email);
 
   useEffect(() => {
-    if (email) {
+    if (email && suppliersByEmail) {
       setFilteredSuppliers(
-        Array.isArray(suppliersByEmail) ? suppliersByEmail : []
+        Array.isArray(suppliersByEmail) ? suppliersByEmail : [suppliersByEmail]
       );
+    } else if (email && !suppliersByEmail) {
+      setFilteredSuppliers([]);
     } else {
       setFilteredSuppliers(suppliers?.content ? suppliers.content : []);
     }
@@ -36,6 +38,16 @@ const TableSuppliers = () => {
       Array.isArray(suppliersByEmail) ? suppliersByEmail : suppliers
     );
   }, [email, suppliersByEmail, suppliers]);
+
+  useEffect(() => {
+    if (email && !isUserEmail && !suppliersByEmail) {
+      const timer = setTimeout(() => {
+        setEmail("");
+      }, 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [email, isUserEmail, suppliersByEmail]);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
