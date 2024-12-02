@@ -1,11 +1,11 @@
  import { BrowserRouter, Route, Routes } from "react-router-dom";
-import RegisterSuppliers from "./components/uiSuppliers"; // Adjust the import path as needed
+ import Suppliers from "./screen/suppliers";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/xd" element={<RegisterSuppliers />} />
+        <Route path="/xd" element={<Suppliers />} />
         <Route path="*" element={<div>Page not found</div>} /> {/* Default route */}
       </Routes>
     </BrowserRouter>
