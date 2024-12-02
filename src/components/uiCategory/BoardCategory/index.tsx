@@ -1,16 +1,24 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useDeleteCategory, useGetAllCategories } from "../../../hooks";
-import styles from "./board.module.css";
 import DeleteButton from "../../ui/deleteButton";
 import { Paper } from "@mui/material";
 import EditButton from "../../ui/editButton";
+import { CategoryModelDto } from "../../../models/categoryModel";
 
-const BoardCategory = () => {
+interface BoardCategoryProps {
+  onEditCategory: (category: CategoryModelDto) => void;
+}
+
+const BoardCategory = ({ onEditCategory }: BoardCategoryProps) => {
     const { categories, isLoading:isLoadingCategies}=useGetAllCategories();
     const { deleteCategoryMutation:deleteCategory, isPending:isPendingDelete}=useDeleteCategory();
+  
     const handleDelete =(code:string)=>{
         deleteCategory(code);
-    }
+    };
+    const handleEdit = (category: CategoryModelDto) => {
+      onEditCategory(category);
+    };
 
     const columns: GridColDef[] = [
         { field: "name", headerName: "Nombre", width: 150 },
@@ -23,7 +31,7 @@ const BoardCategory = () => {
           renderCell: (params) => (
             <div>
               <DeleteButton onDelete={() => handleDelete(params.row.code)} />
-              <EditButton onEdit={() => {}} />
+              <EditButton onEdit={() => handleEdit(params.row)} />
             </div>
              
             
@@ -40,7 +48,7 @@ const BoardCategory = () => {
 
   return (
     <>
-      <Paper sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh',width:'90%', marginTop:'3rem'}}>
+      <Paper sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh',width:'80%', marginTop:'3rem'}}>
           <DataGrid
             rows={[...rows]}
             columns={columns}
