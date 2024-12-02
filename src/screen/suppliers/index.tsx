@@ -4,15 +4,14 @@ import TableSuppliers from "../../components/uiSuppliers/table";
 
 const Suppliers = () => {
   const menuItems = [
-    { text: "Gestión de provedores", path: "/provedores" },
+    { text: "Gestión de proveedores", path: "/provedores" },
     // otros elementos del menú
   ];
+
   return (
     <>
       <SideBarComponent menuItems={menuItems} />
-
       <RegisterSuppliers />
-
       <TableSuppliers />
     </>
   );

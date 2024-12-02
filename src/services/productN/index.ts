@@ -45,3 +45,24 @@ export const UpdateProductByCode = async (
 
   return data as ProductModel;
 };
+
+
+export const GetAllProducts = async (
+  page: number = 0,
+  size: number = 10,
+  sortBy: string = "name",
+  direction: string = "asc"
+) => {
+  const url = `/products?page=${page}&size=${size}&sortBy=${sortBy}&direction=${direction}`;
+
+  const { data } = await scheduleApi.get(url);
+
+  return data as PaginatedResponse<ProductModeltDto>;
+};
+
+
+export const CreateProduct = async (product: ProductModel) => {
+  const { data } = await scheduleApi.post("/products", product);
+  return data as ProductModel;
+};
+
