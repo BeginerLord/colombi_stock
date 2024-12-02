@@ -9,7 +9,7 @@ interface PropsButton {
 const ButtonComponet = ({ name, onClick, type = "button" }: PropsButton) => {
   return (
     <>
-      <Button
+      <Button style={{ fontSize: '1.4rem', padding: '0.7rem 1.7rem' }}
 type={type}        variant="contained"
         color="primary"
         onClick={onClick}
