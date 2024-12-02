@@ -1,26 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { UseDeleteSuppliers, UseGetAllSuppliers } from "../../../hooks";
+import {
+  UseDeleteSuppliers,
+  UseGetAllSuppliers,
+  UseGetSuppliersByEmail,
+} from "../../../hooks";
 import { Paper } from "@mui/material";
-import ActionButtons from "../../ui/buttonsAcctions";
 import styles from "./tableSuppliers.module.css";
+import DeleteButton from "../../ui/deleteButton";
+import SearchBoxComponent from "../../ui/searchBox";
+import { SuppliersModelDto } from "../../../models";
 
 const TableSuppliers = () => {
   const { isLoading, suppliers } = UseGetAllSuppliers(0, 10, "name", "asc");
-  const {  DeleteSuppliersMutation ,isPending} = UseDeleteSuppliers();
+  const { DeleteSuppliersMutation, isPending: isPendingD } =
+    UseDeleteSuppliers();
+  const [email, setEmail] = useState<string>("");
+  const [filteredSuppliers, setFilteredSuppliers] = useState<
+    SuppliersModelDto[] | null
+  >(null);
 
+  const { isLoading: isUserEmail, suppliersByEmail } =
+    UseGetSuppliersByEmail(email);
+
+  useEffect(() => {
+    if (email) {
+      setFilteredSuppliers(
+        Array.isArray(suppliersByEmail) ? suppliersByEmail : []
+      );
+    } else {
+      setFilteredSuppliers(suppliers?.content ? suppliers.content : []);
+    }
+    console.log(
+      "Filtered Suppliers:",
+      Array.isArray(suppliersByEmail) ? suppliersByEmail : suppliers
+    );
+  }, [email, suppliersByEmail, suppliers]);
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  const handleEdit = (id: number) => {
-    alert(`Edit supplier with id: ${id}`);
-    // Implement your edit logic here
-  };
-
-  const handleDelete = (dni: number) => {
-    if (window.confirm(`Are you sure you want to delete supplier with DNI: ${dni}?`)) {
-        DeleteSuppliersMutation(dni.toString());
+  const handleDelete = (dni: string) => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete supplier with DNI: ${dni}?`
+      )
+    ) {
+      DeleteSuppliersMutation(dni.toString());
     }
   };
 
@@ -35,25 +61,30 @@ const TableSuppliers = () => {
       headerName: "Acciones",
       width: 200,
       renderCell: (params) => (
-        <ActionButtons
-          onEdit={() => handleEdit(params.row.id)}
-          onDelete={() => handleDelete(params.row.dni)}
-        />
+        <DeleteButton onDelete={() => handleDelete(params.row.dni)} />
       ),
     },
   ];
 
-  const rows = suppliers?.content.map((supplier, index) => ({
-    id: index,
-    name: supplier.name || "",
-    lastName: supplier.lastName || "",
-    dni: supplier.dni || "",
-    phone: supplier.phone || "",
-    email: supplier.email || "",
-  })) || [];
+  const rows =
+    filteredSuppliers?.map((supplier, index) => ({
+      id: index,
+      name: supplier.name || "",
+      lastName: supplier.lastName || "",
+      dni: supplier.dni || "",
+      phone: supplier.phone || "",
+      email: supplier.email || "",
+    })) || [];
 
   return (
     <div className="">
+      <div className={styles.container_search}>
+        <SearchBoxComponent
+          setInfo={setEmail}
+          placeholder={"buscar proveedores por email"}
+        />
+      </div>
+
       <div
         style={{
           display: "flex",
@@ -64,7 +95,7 @@ const TableSuppliers = () => {
       >
         <Paper sx={{ height: 250, width: "60%" }}>
           <DataGrid
-            rows={rows}
+            rows={[...rows]}
             columns={columns}
             autoPageSize={true}
             rowBufferPx={200}

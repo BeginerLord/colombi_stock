@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import styles from "./modal.module.css";
@@ -7,19 +7,26 @@ interface PropsModal {
   title?: string;
   onClick?: () => void;
   children?: React.ReactNode;
+  supplier?: { id: number; name: string }; // Replace with the appropriate type
+  // Add any other relevant props here
 }
 
-const ModalComponent: React.FC<PropsModal> = ({ title, children, onClick }) => {
+const ModalComponent: React.FC<PropsModal> = ({ title, children, onClick, supplier }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme(); // Obtén el tema actual
+
+  useEffect(() => {
+    if (supplier) {
+      setOpen(true);
+    }
+  }, [supplier]);
 
   const openClose = () => {
     setOpen(!open);
   };
+
   return (
     <>
-      <button onClick={openClose}>{title}</button>
-
       <Modal open={open} onClose={openClose}>
         <div className={styles.modal_container}>
           <div className={styles.modal} style={{ boxShadow: theme.shadows[2] }}>
@@ -28,7 +35,9 @@ const ModalComponent: React.FC<PropsModal> = ({ title, children, onClick }) => {
             </div>
             <div className={styles.form}>
               <div className={styles.formulary}></div>
-              <div className={styles.container_input_form}>{children}</div>
+              <div className={styles.container_input_form}>
+                {children}
+              </div>
             </div>
             <div className={styles.button}>
               <button className={styles.button_cancel} onClick={openClose}>
