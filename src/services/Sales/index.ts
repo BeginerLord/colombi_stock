@@ -12,7 +12,7 @@ export const GetSalesCanceled = async (): Promise<Sales[]> => {
 };
 
 export const GetSalesActive = async (): Promise<Sales[]> => {
-  const { data } = await scheduleApi.get("/");
+  const { data } = await scheduleApi.get("/active");
   return data as Sales[];
 };
 
