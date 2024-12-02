@@ -1,7 +1,21 @@
-import styles from "./Suppliers.module.css";
+import RegisterSuppliers from "../../components/uiSuppliers/register";
 
+ 
+
+  
 const Suppliers = () => {
-  return < > </ >;
+  return < >
+  
+  
+  
+  
+  
+  
+  
+  <RegisterSuppliers/>
+  
+  
+   </ >;
 };
 
 export default Suppliers;
