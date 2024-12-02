@@ -7,6 +7,8 @@ import { useCreateCategory } from "../../../hooks";
 
 const RegisterCategory = () => {
 
+
+  
   const {isPending:isPendingCreate,createCategoryMutation:create }= useCreateCategory();
   const CreateCategory: SubmitHandler<CategoryModelDto> = async (data) => {
     await create({

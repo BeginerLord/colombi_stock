@@ -1,25 +1,20 @@
+import SideBarComponent from "../../components/ui/sideBar";
 import RegisterSuppliers from "../../components/uiSuppliers/register";
 import TableSuppliers from "../../components/uiSuppliers/table";
 
- 
- 
-
-  
 const Suppliers = () => {
-  return < >
-  
-  
-  
-  
-  
-  
-  
-  <RegisterSuppliers/>
+  const menuItems = [
+    { text: "Gestión de proveedores", path: "/provedores" },
+    // otros elementos del menú
+  ];
 
-  <TableSuppliers/>
-  
-  
-   </ >;
+  return (
+    <>
+      <SideBarComponent menuItems={menuItems} />
+      <RegisterSuppliers />
+      <TableSuppliers />
+    </>
+  );
 };
 
 export default Suppliers;

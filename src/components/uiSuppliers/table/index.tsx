@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+ import React, { useState, useEffect } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import {
   UseDeleteSuppliers,
@@ -10,7 +10,7 @@ import styles from "./tableSuppliers.module.css";
 import DeleteButton from "../../ui/deleteButton";
 import SearchBoxComponent from "../../ui/searchBox";
 import { SuppliersModelDto } from "../../../models";
-
+  
 const TableSuppliers = () => {
   const { isLoading, suppliers } = UseGetAllSuppliers(0, 10, "name", "asc");
   const { DeleteSuppliersMutation, isPending: isPendingD } =
@@ -19,15 +19,17 @@ const TableSuppliers = () => {
   const [filteredSuppliers, setFilteredSuppliers] = useState<
     SuppliersModelDto[] | null
   >(null);
-
+ 
   const { isLoading: isUserEmail, suppliersByEmail } =
     UseGetSuppliersByEmail(email);
 
   useEffect(() => {
-    if (email) {
+    if (email && suppliersByEmail) {
       setFilteredSuppliers(
-        Array.isArray(suppliersByEmail) ? suppliersByEmail : []
+        Array.isArray(suppliersByEmail) ? suppliersByEmail : [suppliersByEmail]
       );
+    } else if (email && !suppliersByEmail) {
+      setFilteredSuppliers([]);
     } else {
       setFilteredSuppliers(suppliers?.content ? suppliers.content : []);
     }
@@ -36,6 +38,16 @@ const TableSuppliers = () => {
       Array.isArray(suppliersByEmail) ? suppliersByEmail : suppliers
     );
   }, [email, suppliersByEmail, suppliers]);
+
+  useEffect(() => {
+    if (email && !isUserEmail && !suppliersByEmail) {
+      const timer = setTimeout(() => {
+        setEmail("");
+      }, 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [email, isUserEmail, suppliersByEmail]);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -49,6 +61,7 @@ const TableSuppliers = () => {
       DeleteSuppliersMutation(dni.toString());
     }
   };
+ 
 
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", width: 150 },
@@ -61,7 +74,9 @@ const TableSuppliers = () => {
       headerName: "Acciones",
       width: 200,
       renderCell: (params) => (
-        <DeleteButton onDelete={() => handleDelete(params.row.dni)} />
+        <>
+          <DeleteButton onDelete={() => handleDelete(params.row.dni)} />
+         </>
       ),
     },
   ];
@@ -124,6 +139,8 @@ const TableSuppliers = () => {
           />
         </Paper>
       </div>
+
+    
     </div>
   );
 };
