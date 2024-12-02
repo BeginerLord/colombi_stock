@@ -1,0 +1,88 @@
+ 
+
+/* Contenedor del Modal que ocupa toda la pantalla y centra el contenido */
+.modal_container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 570%;
+    height: 160%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000000;
+  }
+  
+  /* Estilos del Modal */
+  /* Estilos del Modal */
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border-radius: 1rem;
+    transform: translate(-50%, -50%);
+    background-color: var(--color-white);
+    padding: var(--padding);
+    width: 600px;  /* Aumenta el tamaño */
+    height: auto;
+  }
+  
+  
+  /* Encabezado del Modal */
+  .header_form {
+    text-align: center;
+  }
+  
+  .header_form span {
+    font-size: var(--font-size-header);
+    color: black;
+  }
+  
+  /* Contenedor del Formulario dentro del Modal */
+  .form {
+    margin-top: 20px;
+    /* Removido display: grid para .form */
+  }
+  
+  /* Contenedor de Inputs con Grid para distribuir los campos */
+  .container_input_form {
+    margin-top: 5px;
+    display: grid;
+    grid-template-columns: 1fr; /* Una columna por defecto */
+    gap: 40px; /* Espacio entre inputs */
+  }
+  
+  @media (min-width: 600px) {
+    .container_input_form {
+      grid-template-columns: repeat(2, 1fr); /* Dos columnas en pantallas más grandes */
+    }
+  }
+  
+  
+  /* Contenedor de Botones */
+  .button {
+    display: flex;
+    justify-content: right;
+    gap: 3rem;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  /* Estilos de los Botones */
+  .button_confirm,
+  .button_cancel {
+    padding: var(--button-padding);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--color-white);
+  }
+  
+  .button_confirm {
+    background-color: var(--color-primary);
+  }
+  
+  .button_cancel {
+    background-color: var(--color-secondary);
+  }
+  
