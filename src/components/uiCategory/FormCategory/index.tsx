@@ -8,19 +8,15 @@ import { useEffect } from "react";
 
 interface RegisterCategoryProps {
   selectedCategory?: CategoryModelDto | null;
-
   updateCategory: (category: CategoryModelDto) => Promise<void>;
-
   isUpdating: boolean;
 }
 
-const RegisterCategory = ({
-  selectedCategory,
-  updateCategory,
-  isUpdating,
-}: RegisterCategoryProps) => {
-  const { isPending: isPendingCreate, createCategoryMutation: create } =
-    useCreateCategory();
+const RegisterCategory = ({selectedCategory,updateCategory,isUpdating,}: RegisterCategoryProps) => {
+
+  
+  const {isPending:isPendingCreate,createCategoryMutation:create }= useCreateCategory();
+
 
   const {
     register,
