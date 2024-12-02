@@ -1,11 +1,11 @@
 import { scheduleApi } from "../../api";
 import { Sales, SalesCreate } from "../../models/salesModel";
 
-export const CreateSales = async () => {
-  const { data } = await scheduleApi.post("/");
+export const CreateSales = async (sales: SalesCreate) => {
+  const { data } = await scheduleApi.post("/",sales);
   return data as SalesCreate;
 };
-
+ 
 export const GetSalesCanceled = async (): Promise<Sales[]> => {
   const { data } = await scheduleApi.get("/canceled");
   return data as Sales[];
