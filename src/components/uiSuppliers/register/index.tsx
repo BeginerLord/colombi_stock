@@ -24,7 +24,7 @@ const RegisterSuppliers: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Proveedores</h1>
+      <h1 className={styles.title}> Gestión de Proveedores</h1>
       <form onSubmit={handleSubmit(createSuppliersSucces)}>
         <TextInput label="Name" {...register("name", { required: true })} />
         {errors.name && <span>This field is required</span>}
