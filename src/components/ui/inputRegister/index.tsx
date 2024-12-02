@@ -7,6 +7,8 @@ interface InputProps {
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   type?: string;
+  disabled?: boolean;
+
 }
 
 interface SelectProps {
@@ -18,10 +20,11 @@ interface SelectProps {
 }
 
 export const TextInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ id, label, value, onChange, type = "text", ...rest }, ref) => (
+  ({ id, label, value, onChange, disabled, type = "text", ...rest }, ref) => (
     <div className={styles.Input}>
       <span>{label}</span>
       <input
+      disabled={disabled}
         id={id}
         value={value}
         onChange={onChange}

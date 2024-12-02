@@ -10,7 +10,7 @@ import styles from "./tableSuppliers.module.css";
 import DeleteButton from "../../ui/deleteButton";
 import SearchBoxComponent from "../../ui/searchBox";
 import { SuppliersModelDto } from "../../../models";
-
+  
 const TableSuppliers = () => {
   const { isLoading, suppliers } = UseGetAllSuppliers(0, 10, "name", "asc");
   const { DeleteSuppliersMutation, isPending: isPendingD } =
@@ -19,7 +19,7 @@ const TableSuppliers = () => {
   const [filteredSuppliers, setFilteredSuppliers] = useState<
     SuppliersModelDto[] | null
   >(null);
-
+ 
   const { isLoading: isUserEmail, suppliersByEmail } =
     UseGetSuppliersByEmail(email);
 
@@ -61,6 +61,7 @@ const TableSuppliers = () => {
       DeleteSuppliersMutation(dni.toString());
     }
   };
+ 
 
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", width: 150 },
@@ -73,7 +74,9 @@ const TableSuppliers = () => {
       headerName: "Acciones",
       width: 200,
       renderCell: (params) => (
-        <DeleteButton onDelete={() => handleDelete(params.row.dni)} />
+        <>
+          <DeleteButton onDelete={() => handleDelete(params.row.dni)} />
+         </>
       ),
     },
   ];
@@ -136,6 +139,8 @@ const TableSuppliers = () => {
           />
         </Paper>
       </div>
+
+    
     </div>
   );
 };
