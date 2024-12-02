@@ -1,0 +1,27 @@
+.Input {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.4rem;
+    background-color: white;
+    padding: 1rem;
+    width: 70%;
+    
+  margin-bottom: 2rem;
+  
+  }
+  
+  .Input input {
+    border: none;
+    outline: none;
+  }
+  
+  .Input span {
+    font-size: 1.2rem;
+    background-color: white;
+    color: rgb(73, 73, 73);
+  }
+  .select {
+       border: none;
+       outline: none;
+  }
