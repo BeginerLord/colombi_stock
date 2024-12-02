@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UpdateCategory } from "../../services/Category";
 import { CreateCategoryModel } from "../../models/categoryModel";
 
-export const UpdateCategoryByCode = () => {
+export const useUpdateCategoryByCode = () => {
   const queryClient = useQueryClient();
 
   const { mutate: updateCategoryByCodeMutation, isPending } = useMutation({
