@@ -2,15 +2,17 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { UseCreateSuppliers } from "../../../hooks/suppliers/useCreateSuppliers";
 import { SuppliersModelDto } from "../../../models/suppliersModel";
-import styles from "./registerSuppliers.module.css"
+import styles from "./registerSuppliers.module.css";
 import { EmailInput, TextInput } from "../../ui/inputRegister";
 import ButtonComponet from "../../ui/button";
 const RegisterSuppliers: React.FC = () => {
   const { CreateSuppliersMutation, isPending } = UseCreateSuppliers();
 
-  const createSuppliersSucces: SubmitHandler<SuppliersModelDto> = async (data) => {
+  const createSuppliersSucces: SubmitHandler<SuppliersModelDto> = async (
+    data
+  ) => {
     await CreateSuppliersMutation({
-      ...data
+      ...data,
     });
     reset();
   };
@@ -19,7 +21,7 @@ const RegisterSuppliers: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<SuppliersModelDto>();
 
   return (
@@ -35,10 +37,18 @@ const RegisterSuppliers: React.FC = () => {
         />
         {errors.lastName && <span>This field is required</span>}
 
-        <TextInput label="DNI" {...register("dni", { required: true })} />
+        <TextInput
+          type="number"
+          label="DNI"
+          {...register("dni", { required: true })}
+        />
         {errors.dni && <span>This field is required</span>}
 
-        <TextInput label="Phone" {...register("phone", { required: true })} />
+        <TextInput
+          type="number"
+          label="Phone"
+          {...register("phone", { required: true })}
+        />
         {errors.phone && <span>This field is required</span>}
 
         <EmailInput label="Email" {...register("email", { required: true })} />
