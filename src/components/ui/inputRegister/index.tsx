@@ -8,15 +8,6 @@ interface InputProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   type?: string;
   disabled?: boolean;
-
-}
-
-interface SelectProps {
-  id?: string;
-  label: string;
-  value?: string;
-  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
-  options: string[];
 }
 
 export const TextInput = forwardRef<HTMLInputElement, InputProps>(
@@ -24,7 +15,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
     <div className={styles.Input}>
       <span>{label}</span>
       <input
-      disabled={disabled}
+        disabled={disabled}
         id={id}
         value={value}
         onChange={onChange}
@@ -52,24 +43,29 @@ export const EmailInput = forwardRef<HTMLInputElement, InputProps>(
   )
 );
 
-export const SelectInput = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ id, label, value, onChange, options, ...rest }, ref) => (
-    <div className={styles.Input}>
-      <span>{label}</span>
-      <select
-        id={id}
-        value={value}
-        onChange={onChange}
-        ref={ref}
-        className={styles.select}
-        {...rest}
-      >
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </div>
-  )
+interface Option {
+  value: string;
+  label: string;
+}
+
+interface SelectInputProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  label: string;
+  options: Option[];
+}
+
+export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
+  ({ label, options, ...rest }, ref) => {
+    return (
+      <div className={styles.Input}>
+        <label>{label}</label>
+        <select ref={ref} {...rest}>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
 );
