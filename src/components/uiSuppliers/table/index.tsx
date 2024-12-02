@@ -108,7 +108,7 @@ const TableSuppliers = () => {
           marginTop: "2rem",
         }}
       >
-        <Paper sx={{ height: 250, width: "60%" }}>
+        <Paper sx={{ height: 250, width: "70%" }}>
           <DataGrid
             rows={[...rows]}
             columns={columns}

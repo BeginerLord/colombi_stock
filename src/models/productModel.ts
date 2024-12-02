@@ -2,14 +2,18 @@
 export interface ProductModel {
     name: string;
     description?: string;
-    price: string;
-    purchasePrice: string;
-    stock: string;
-    stockMin: string;
+    price: number;
+    purchasePrice: number;
+    stock: number;
+    stockMin: number;
     unit?: string;
     code: string;
+    codigoCategoria: string;
+    dni_provedor: string;
+    suppliersName:string;
 }
-export type ProductModeltDto = Omit<ProductModel,"id_">;
+
+export type ProductModeltDto = Omit<ProductModel, "id_">;
 export type UpdateProductModel= Partial<ProductModel>;
 
 export type ProductCosts = {
