@@ -1,3 +1,4 @@
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateProduct } from "../../services/productN";
 
@@ -14,3 +15,4 @@ export const useCreateProduct = () => {
 
   return { createProductMutation, isPending };
 };
+
