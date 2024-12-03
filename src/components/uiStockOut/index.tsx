@@ -1,5 +1,5 @@
 import React from "react";
-import {  UseCreateStockOut, useGetAllProducts } from "../../hooks";
+import {   useCreateStockOut, useGetAllProducts } from "../../hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { StockMovementDto } from "../../models";
 import { SelectInput, TextInput } from "../ui/inputRegister";
@@ -10,7 +10,7 @@ import { MenuItemOwner } from "../../constant";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 const StockOut = () => {
-  const { CreateStockOut, isPending } = UseCreateStockOut();
+  const { createStockOut, isPending } = useCreateStockOut();
 
   const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
@@ -33,7 +33,7 @@ const StockOut = () => {
   );
 
   const createStockInSucces: SubmitHandler<StockMovementDto> = async (data) => {
-    await CreateStockOut({
+    await createStockOut({
       ...data,
       productCode: data.productCode,
       quantity: data.quantity,

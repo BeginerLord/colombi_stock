@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { GetStockMovementsForTransation } from "../../services/StockN";
+import { toast } from "react-toastify";
+import { getErrorMessage } from "../../constant/utils";
 
 export const useGetAllStockMovements = (
   page: number = 0,
@@ -9,7 +11,11 @@ export const useGetAllStockMovements = (
   status: "ACTIVE",
   movementType: "STOCK_IN" | "STOCK_OUT"
 ) => {
-  const { data: stockMovements, isLoading } = useQuery({
+  const {
+    data: stockMovements,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: [
       "stockMovements",
       page,
@@ -28,6 +34,22 @@ export const useGetAllStockMovements = (
         status,
         movementType
       ),
+    onError: (error) => {
+      // Manejo del error utilizando getErrorMessage
+      const errorMessage = getErrorMessage(error);
+      toast.error(errorMessage);
+    },
+    onSuccess: () => {
+      // Mostrar un mensaje cuando los movimientos de stock son cargados exitosamente
+      toast.success("Movimientos de stock cargados exitosamente!");
+
+      // Verificar el tipo de movimiento para enviar alertas específicas
+      if (movementType === "STOCK_IN") {
+        toast.info("¡Stock ingresado correctamente!");
+      } else if (movementType === "STOCK_OUT") {
+        toast.warning("¡Stock retirado correctamente!");
+      }
+    },
   });
 
   return { stockMovements, isLoading };

@@ -21,9 +21,8 @@ const TableProducts: React.FC<TableProductsProps> = ({ onEditProduct }) => {
   const [filteredProducts, setFilteredProducts] = useState<ProductModel[]>([]);
 
   const handleDelete = (code: string) => {
-    if (window.confirm(`Are you sure you want to delete product with code: ${code}?`)) {
       DeleteProductMutation(code.toString());
-    }
+    
   };
 
   const handleEdit = (product: ProductModel) => {
