@@ -1,5 +1,6 @@
 export interface StockMovementModel {
   code: number;
+  nameProduct:string
   productCode: string;
   quantity: number;
   movementType: 'STOCK_IN' | 'STOCK_OUT'; // Assuming these are the only possible values
