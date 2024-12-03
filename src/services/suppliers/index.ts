@@ -5,12 +5,10 @@ import { SuppliersModel, SuppliersModelDto } from "../../models/suppliersModel";
 export const UpdateSuppliersByDni = async (
   dni: string,
   suppliers: SuppliersModel
-) => {
+): Promise<SuppliersModelDto> => {
   const { data } = await scheduleApi.put(`/suppliers/${dni}`, suppliers);
-
-  return data as SuppliersModel;
+  return data as SuppliersModelDto;
 };
-
 export const DeleteSuppliersByDni = async (dni: string) => {
   const { data } = await scheduleApi.delete(`/suppliers/${dni}`);
 

@@ -1,38 +1,22 @@
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useCreateProduct, useGetAllCategories, UseGetAllSuppliers } from "../../../hooks";
+import { useUpdateProductByCode, useGetAllCategories, UseGetAllSuppliers, UseFindProductByCode } from "../../../hooks";
 import { TextInput, SelectInput } from "../../ui/inputRegister";
 import ButtonComponent from "../../ui/button";
 import { ProductModeltDto } from "../../../models";
 
-import styles from "./RegisterProducts.module.css";
+import styles from "./EditProduct.module.css";
 
-interface RegisterProductProps {
-  selectedProduct?: ProductModeltDto | null;
-  updateProduct: (product: ProductModeltDto) => Promise<void>;
-  isUpdating: boolean;
+interface EditProductProps {
+  productCode: string;
+  onClose: () => void; // Prop para cerrar el formulario de edición
 }
 
-const RegisterProduct: React.FC<RegisterProductProps> = ({ selectedProduct, updateProduct, isUpdating }) => {
-  const { createProductMutation, isPending: isPendingProduct } = useCreateProduct();
-
+const EditProduct: React.FC<EditProductProps> = ({ productCode, onClose }) => {
+  const { updateProductByCodeMutation, isPending: isPendingUpdate } = useUpdateProductByCode();
   const { isLoading: isLoadingSuppliers, suppliers } = UseGetAllSuppliers(0, 10, "name", "asc");
   const { isLoading: isLoadingCategories, categories } = useGetAllCategories(0, 10, "name", "asc");
-
-  const createProductSuccess: SubmitHandler<ProductModeltDto> = async (data) => {
-    if (selectedProduct) {
-      await updateProduct(data);
-    } else {
-      await createProductMutation({
-        ...data,
-        price: data.price,
-        purchasePrice: data.purchasePrice,
-        stock: data.stock,
-        stockMin: data.stockMin,
-      });
-    }
-    reset();
-  };
+  const { isLoading: isLoadingProduct, productByCode } = UseFindProductByCode(productCode);
 
   const {
     register,
@@ -43,24 +27,33 @@ const RegisterProduct: React.FC<RegisterProductProps> = ({ selectedProduct, upda
   } = useForm<ProductModeltDto>();
 
   useEffect(() => {
-    if (selectedProduct) {
-      setValue("name", selectedProduct.name);
-      setValue("description", selectedProduct.description);
-      setValue("price", selectedProduct.price);
-      setValue("purchasePrice", selectedProduct.purchasePrice);
-      setValue("stock", selectedProduct.stock);
-      setValue("stockMin", selectedProduct.stockMin);
-      setValue("unit", selectedProduct.unit);
-      setValue("code", selectedProduct.code);
-      setValue("codigoCategoria", selectedProduct.codigoCategoria);
-      setValue("dni_provedor", selectedProduct.dni_provedor);
+    if (productByCode) {
+      setValue("name", productByCode.name);
+      setValue("description", productByCode.description);
+      setValue("price", productByCode.price);
+      setValue("purchasePrice", productByCode.purchasePrice);
+      setValue("stock", productByCode.stock);
+      setValue("stockMin", productByCode.stockMin);
+      setValue("unit", productByCode.unit);
+      setValue("code", productByCode.code);
+      setValue("codigoCategoria", productByCode.codigoCategoria);
+      setValue("dni_provedor", productByCode.dni_provedor);
     }
-  }, [selectedProduct, setValue]);
+  }, [productByCode, setValue]);
+
+  const updateProductSuccess: SubmitHandler<ProductModeltDto> = async (data) => {
+    await updateProductByCodeMutation({
+      code: productCode,
+      product: data,
+    });
+    reset();
+    onClose(); // Cierra el formulario de edición después de actualizar el producto
+  };
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>{selectedProduct ? "Actualizar Producto" : "Registro de Producto"}</h1>
-      <form onSubmit={handleSubmit(createProductSuccess)}>
+      <h1 className={styles.title}>Editar Producto</h1>
+      <form onSubmit={handleSubmit(updateProductSuccess)}>
         <TextInput label="Name" {...register("name", { required: true })} />
         {errors.name && <span>This field is required</span>}
 
@@ -82,7 +75,7 @@ const RegisterProduct: React.FC<RegisterProductProps> = ({ selectedProduct, upda
         <TextInput label="Unit" {...register("unit", { required: true })} />
         {errors.unit && <span>This field is required</span>}
 
-        <TextInput label="Code" {...register("code", { required: true })} />
+        <TextInput label="Code" {...register("code", { required: true })} disabled />
         {errors.code && <span>This field is required</span>}
 
         <SelectInput
@@ -105,10 +98,10 @@ const RegisterProduct: React.FC<RegisterProductProps> = ({ selectedProduct, upda
         />
         {errors.dni_provedor && <span>This field is required</span>}
 
-        <ButtonComponent name={selectedProduct ? "Actualizar" : "Enviar"} type="submit" disabled={isPendingProduct || isUpdating} />
+        <ButtonComponent name="Actualizar" type="submit" />
       </form>
     </div>
   );
 };
 
-export default RegisterProduct;
+export default EditProduct;

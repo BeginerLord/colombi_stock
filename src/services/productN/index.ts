@@ -12,9 +12,19 @@ export const DeleteProductByCode = async (code: string) => {
   return data;
 };
 
-export const GetProductByCodeLowStock = async (code: string): Promise<ProductCosts> => {
-  const { data } = await scheduleApi.get(`/products/low-stock/${code}`);
-  return data as ProductCosts;
+ 
+
+export const GetProductByCodeLowStock = async (
+  page: number = 0,
+  size: number = 10,
+  sortBy: string = "name",
+  direction: string = "asc"
+) => {
+  const url = `/products/search/low-stock?page=${page}&size=${size}&sortBy=${sortBy}&direction=${direction}`;
+
+  const { data } = await scheduleApi.get(url);
+
+  return data as PaginatedResponse<ProductModeltDto>;
 };
 
 export const FindProductsByPriceBetween = async () => {
@@ -39,13 +49,11 @@ export const GetProductByCode = async (code: string) => {
 
 export const UpdateProductByCode = async (
   code: string,
-  product: ProductModel
+  product: ProductModeltDto
 ) => {
   const { data } = await scheduleApi.put(`/products/${code}`, product);
-
-  return data as ProductModel;
+  return data as ProductModeltDto;
 };
-
 
 export const GetAllProducts = async (
   page: number = 0,
@@ -60,9 +68,8 @@ export const GetAllProducts = async (
   return data as PaginatedResponse<ProductModeltDto>;
 };
 
-
 export const CreateProduct = async (product: ProductModel) => {
   const { data } = await scheduleApi.post("/products", product);
   return data as ProductModel;
 };
-
+ 
