@@ -5,3 +5,21 @@
     margin-left: 2rem;
   }
   
+  .card {
+    border: 1px solid #ccc;
+    width: 28rem;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+   margin-top: 2rem;
+    background-color: #fff;
+  }
+
+  .container_button{
+    margin-top: 3rem;
+  }
+  .title{
+    margin-top: 4rem;
+    font-size: 2.5rem;
+  }
