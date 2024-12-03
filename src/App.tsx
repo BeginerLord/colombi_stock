@@ -8,6 +8,11 @@ import ScreenCategory from "./screen/category";
 
 import SalesScreen from "./screen/sales";
 import StockIn from "./components/uiStockIn";
+import StockOut from "./components/uiStockOut";
+import MovementStocks from "./screen/movementStock";
+import StockToday from "./components/uiStockToday";
+import StockAll from "./components/uitStockAll";
+import StockMovementTransation from "./components/uiStockMovementTransation";
 
 
 
@@ -17,6 +22,11 @@ function App() {
       <Routes>
 
         <Route path="/provedores" element={<Suppliers />} />
+        <Route path="/stock-day" element={<StockToday />} />
+        <Route path="/stock-trans" element={<StockMovementTransation />} />
+
+        
+        <Route path="/stock-all" element={<StockAll />} />
 
         <Route path="/productos" element={<Products />} />
  
@@ -26,7 +36,10 @@ function App() {
         <Route path="*" element={<div>Page not found</div>} /> {/* Default route */}
         <Route path="/productos-low-stock" element={<ProductLowStock/>} />
         <Route path="/stock-in" element={<StockIn/>} />
+        <Route path="/stock-out" element={<StockOut/>} />
+        <Route path="/movements" element={<MovementStocks/>} />
 
+        
         
       </Routes>
     </BrowserRouter>
