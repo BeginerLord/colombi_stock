@@ -6,17 +6,19 @@ import styles from "./tableProducts.module.css";
 import { ProductModel } from "../../../models/productModel";
 import SearchBoxComponent from "../../ui/searchBox";
 import DeleteButton from "../../ui/deleteButton";
-import EditButton from "../../ui/editButton"; // Importa el botón de edición
- import { UseDeleteProduct } from "../../../hooks/ProductN/useDeleteProduct";
-import EditProduct from "../edit";
+import EditButton from "../../ui/editButton";
+import { UseDeleteProduct } from "../../../hooks/ProductN/useDeleteProduct";
 
-const TableProducts = () => {
+interface TableProductsProps {
+  onEditProduct: (product: ProductModel) => void;
+}
+
+const TableProducts: React.FC<TableProductsProps> = ({ onEditProduct }) => {
   const { isLoading, products } = useGetAllProducts(0, 10, "name", "asc");
   const [searchCode, setSearchCode] = useState<string>("");
   const { isLoading: isLoadingByCode, productByCode } = UseFindProductByCode(searchCode);
   const { DeleteProductMutation, isPending } = UseDeleteProduct();
   const [filteredProducts, setFilteredProducts] = useState<ProductModel[]>([]);
-  const [editingProduct, setEditingProduct] = useState<string | null>(null); // Estado para el producto en edición
 
   const handleDelete = (code: string) => {
     if (window.confirm(`Are you sure you want to delete product with code: ${code}?`)) {
@@ -24,12 +26,8 @@ const TableProducts = () => {
     }
   };
 
-  const handleEdit = (code: string) => {
-    setEditingProduct(code); // Establece el producto en edición
-  };
-
-  const closeEditForm = () => {
-    setEditingProduct(null); // Cierra el formulario de edición
+  const handleEdit = (product: ProductModel) => {
+    onEditProduct(product);
   };
 
   useEffect(() => {
@@ -70,7 +68,7 @@ const TableProducts = () => {
       renderCell: (params) => (
         <>
           <DeleteButton onDelete={() => handleDelete(params.row.code)} />
-          <EditButton onEdit={() => handleEdit(params.row.code)} /> {/* Botón de edición */}
+          <EditButton onEdit={() => handleEdit(params.row)} />
         </>
       ),
     },
@@ -127,7 +125,6 @@ const TableProducts = () => {
           />
         </Paper>
       </div>
-      {editingProduct && <EditProduct productCode={editingProduct} onClose={closeEditForm} />} {/* Renderiza el formulario de edición */}
     </div>
   );
 };

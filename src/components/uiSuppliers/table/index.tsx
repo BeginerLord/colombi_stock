@@ -1,42 +1,42 @@
- import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import {
   UseDeleteSuppliers,
   UseGetAllSuppliers,
   UseGetSuppliersByEmail,
+  useUpdateSuppliersByDni,
 } from "../../../hooks";
 import { Paper } from "@mui/material";
 import styles from "./tableSuppliers.module.css";
 import DeleteButton from "../../ui/deleteButton";
 import SearchBoxComponent from "../../ui/searchBox";
 import { SuppliersModelDto } from "../../../models";
-  
-const TableSuppliers = () => {
-  const { isLoading, suppliers } = UseGetAllSuppliers(0, 10, "name", "asc");
-  const { DeleteSuppliersMutation, isPending: isPendingD } =
-    UseDeleteSuppliers();
-  const [email, setEmail] = useState<string>("");
-  const [filteredSuppliers, setFilteredSuppliers] = useState<
-    SuppliersModelDto[] | null
-  >(null);
+import EditButton from "../../ui/editButton";
  
-  const { isLoading: isUserEmail, suppliersByEmail } =
-    UseGetSuppliersByEmail(email);
+interface TableSuppliersProps {
+  onEditSupplier: (supplier: SuppliersModelDto) => void;
+}
+
+const TableSuppliers: React.FC<TableSuppliersProps> = ({ onEditSupplier }) => {
+  const { isLoading, suppliers } = UseGetAllSuppliers(0, 10, "name", "asc");
+  const { DeleteSuppliersMutation, isPending: isPendingD } = UseDeleteSuppliers();
+  const { updateSuppliersByDniMutation, isPending: isPendingUpdate } = useUpdateSuppliersByDni();
+  const [email, setEmail] = useState<string>("");
+  const [filteredSuppliers, setFilteredSuppliers] = useState<SuppliersModelDto[] | null>(null);
+ 
+  const { isLoading: isUserEmail, suppliersByEmail } = UseGetSuppliersByEmail(email);
+  const handleEditSuppliers = (suppliers: SuppliersModelDto) => {
+    onEditSupplier(suppliers);
+  };
 
   useEffect(() => {
     if (email && suppliersByEmail) {
-      setFilteredSuppliers(
-        Array.isArray(suppliersByEmail) ? suppliersByEmail : [suppliersByEmail]
-      );
+      setFilteredSuppliers(Array.isArray(suppliersByEmail) ? suppliersByEmail : [suppliersByEmail]);
     } else if (email && !suppliersByEmail) {
       setFilteredSuppliers([]);
     } else {
       setFilteredSuppliers(suppliers?.content ? suppliers.content : []);
     }
-    console.log(
-      "Filtered Suppliers:",
-      Array.isArray(suppliersByEmail) ? suppliersByEmail : suppliers
-    );
   }, [email, suppliersByEmail, suppliers]);
 
   useEffect(() => {
@@ -53,16 +53,16 @@ const TableSuppliers = () => {
   }
 
   const handleDelete = (dni: string) => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete supplier with DNI: ${dni}?`
-      )
-    ) {
+    if (window.confirm(`Are you sure you want to delete supplier with DNI: ${dni}?`)) {
       DeleteSuppliersMutation(dni.toString());
     }
   };
- 
 
+  const handleEdit = (supplier: SuppliersModelDto) => {
+    onEditSupplier(supplier);
+  };
+
+   
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", width: 150 },
     { field: "lastName", headerName: "Last Name", width: 150 },
@@ -76,7 +76,8 @@ const TableSuppliers = () => {
       renderCell: (params) => (
         <>
           <DeleteButton onDelete={() => handleDelete(params.row.dni)} />
-         </>
+          <EditButton onEdit={() => handleEdit(params.row)}/>
+        </>
       ),
     },
   ];
@@ -94,20 +95,10 @@ const TableSuppliers = () => {
   return (
     <div className="">
       <div className={styles.container_search}>
-        <SearchBoxComponent
-          setInfo={setEmail}
-          placeholder={"buscar proveedores por email"}
-        />
+        <SearchBoxComponent setInfo={setEmail} placeholder={"buscar proveedores por email"} />
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          height: "55vh",
-          marginLeft: "2rem",
-          marginTop: "2rem",
-        }}
-      >
+      <div style={{ display: "flex", height: "55vh", marginLeft: "2rem", marginTop: "2rem" }}>
         <Paper sx={{ height: 250, width: "70%" }}>
           <DataGrid
             rows={[...rows]}
@@ -140,7 +131,7 @@ const TableSuppliers = () => {
         </Paper>
       </div>
 
-    
+        
     </div>
   );
 };
