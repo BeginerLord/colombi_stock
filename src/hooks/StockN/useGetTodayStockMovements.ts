@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
+import {  GetTodayStockMovements } from "../../services/StockN";
 import { PaginatedResponse } from "../../models";
 import { StockMovementModelDto } from "../../models/stockMoventN";
-import { GetTodayStockMovements } from "../../services/StockN";
 
-export const useGetTodayStockMovements = () => {
-    const { data: todayStockMovements, isLoading } = useQuery<PaginatedResponse<StockMovementModelDto>>({
-      queryKey: ["todayStockMovements"],
-      queryFn: GetTodayStockMovements,
+export const useGetStockMovementsToday = (page:number=0,size:number=10,sortBy:string="createDate" ,direction:string="asc") => {
+    const { data: stockMovements, isLoading } = useQuery<PaginatedResponse<StockMovementModelDto>>({
+      queryKey: ["stockMovements", page, size, sortBy, direction],
+      queryFn:() =>GetTodayStockMovements(page, size, sortBy, direction),
     });
   
-    return { todayStockMovements, isLoading };
+    return { stockMovements, isLoading };
   };
+

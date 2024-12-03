@@ -1,19 +1,16 @@
-import { UseCreateStockIn, useGetAllProducts } from "../../hooks";
+import React from "react";
+import {  UseCreateStockOut, useGetAllProducts } from "../../hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { StockMovementDto } from "../../models";
 import { SelectInput, TextInput } from "../ui/inputRegister";
-import styles from "./StockIn.module.css";
+import styles from "./StockOut.module.css";
 import ButtonComponet from "../ui/button";
 import SideBarComponent from "../ui/sideBar";
 import { MenuItemOwner } from "../../constant";
-import React from "react";
-
-import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-const StockIn = () => {
-  const { createStockInMutation, isPending } = UseCreateStockIn();
-  
-
+import { useNavigate } from "react-router-dom";
+const StockOut = () => {
+  const { CreateStockOut, isPending } = UseCreateStockOut();
 
   const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
@@ -28,7 +25,6 @@ const StockIn = () => {
   const handleClose = () => {
     setSnackbarOpen(false);
   };
-
   const { isLoading: isLoadingProduct, products } = useGetAllProducts(
     0,
     10,
@@ -37,7 +33,7 @@ const StockIn = () => {
   );
 
   const createStockInSucces: SubmitHandler<StockMovementDto> = async (data) => {
-    await createStockInMutation({
+    await CreateStockOut({
       ...data,
       productCode: data.productCode,
       quantity: data.quantity,
@@ -55,11 +51,15 @@ const StockIn = () => {
 
   return (
     <div className={styles.container}>
-              <SideBarComponent menuItems={MenuItemOwner} />
+                      <SideBarComponent menuItems={MenuItemOwner} />
 
- 
+      
+
+
+
+
       <div className={styles.nav}>
-     <h1 className={styles.title}>Registro de entradas</h1>
+     <h1 className={styles.title}>Registro de salidas</h1>
       <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
         <Button onClick={() => handleClick('/stock-in', 'Registro de entradas')}>
           Registro de entradas
@@ -75,38 +75,37 @@ const StockIn = () => {
         </Button>
       </div>
      </div>
-      
+
+
+
+
+
       <form onSubmit={handleSubmit(createStockInSucces)}>
-      <TextInput
-        label="Descripción"
-        type="text"
-        {...register("description", { required: true })}
+
+
+<TextInput  label="description" type="text" {...register("description", { required: true, valueAsNumber: true })} />
+{errors.description && <span>This field is required</span>}
+
+
+<TextInput  label="quantity" type="number" min={0} {...register("quantity", { required: true, valueAsNumber: true })} />
+{errors.quantity && <span>This field is required</span>}
+      <SelectInput
+        label="producto"
+        {...register("productCode", { required: true })}
+        options={
+          products?.content.map((product) => ({
+            value: product.code,
+            label: product.name,
+          })) || []
+        }
       />
-      {errors.description && <span>This field is required</span>}
+      {errors.productCode && <span>This field is required</span>}
+     
+      <ButtonComponet name={"Enviar"} type="submit" />
 
-        <TextInput
-          label="quantity"
-          type="number"
-          min={0 as number}
-          {...register("quantity", { required: true, valueAsNumber: true })}
-        />
-        {errors.quantity && <span>This field is required</span>}
-        <SelectInput
-          label="producto"
-          {...register("productCode", { required: true })}
-          options={
-            products?.content.map((product) => ({
-              value: product.code,
-              label: product.name,
-            })) || []
-          }
-        />
-        {errors.productCode && <span>This field is required</span>}
-
-        <ButtonComponet name={"Enviar"} type="submit" />
       </form>
     </div>
   );
 };
 
-export default StockIn;
+export default StockOut;

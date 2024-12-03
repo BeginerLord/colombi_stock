@@ -16,7 +16,7 @@ export const UpdateStockMovement = async (
 };
 
 export const SaveOutStockMovement = async (stockMovement: StockMovement) => {
-  const { data } = await scheduleApi.put(
+  const { data } = await scheduleApi.post(
     `/stock_movement/stock-out`,
     stockMovement
   );
@@ -25,7 +25,7 @@ export const SaveOutStockMovement = async (stockMovement: StockMovement) => {
 };
 
 export const SaveInStockMovement = async (stockMovement: StockMovement) => {
-  const { data } = await scheduleApi.put(
+  const { data } = await scheduleApi.post(
     `/stock_movement/stock-in`,
     stockMovement
   );
