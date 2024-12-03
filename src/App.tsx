@@ -5,7 +5,9 @@ import ProductLowStock from "./components/uiProductLowStock";
  
 
 import ScreenCategory from "./screen/category";
-  
+
+import SalesScreen from "./screen/sales";
+
 
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
  
         <Route path="/xd" element={<Suppliers />} />
         <Route path="/categoria" element={<ScreenCategory />} />
+        <Route path="/ventas" element={<SalesScreen />} />
         <Route path="*" element={<div>Page not found</div>} /> {/* Default route */}
         <Route path="/productos-low-stock" element={<ProductLowStock/>} />
  
