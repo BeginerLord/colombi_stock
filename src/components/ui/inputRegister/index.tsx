@@ -1,17 +1,20 @@
 import React, { forwardRef } from "react";
 import styles from "./inputRegister.module.css";
-
 interface InputProps {
   id?: string;
   label: string;
-  value?: string;
+  value: number | string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   type?: string;
   disabled?: boolean;
+  min?: number;
+  max?: number;
 }
-
 export const TextInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ id, label, value, onChange, disabled, type = "text", ...rest }, ref) => (
+  (
+    { id, label, value, onChange, disabled, type = "text", min, max, ...rest },
+    ref
+  ) => (
     <div className={styles.Input}>
       <span>{label}</span>
       <input
@@ -21,6 +24,8 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
         onChange={onChange}
         type={type}
         ref={ref}
+        min={min}
+        max={max}
         {...rest}
       />
     </div>
@@ -48,7 +53,8 @@ interface Option {
   label: string;
 }
 
-interface SelectInputProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+interface SelectInputProps
+  extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
   options: Option[];
 }
