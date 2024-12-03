@@ -10,9 +10,9 @@ const ResgisterSale = () => {
     const createSales: SubmitHandler<SalesCreate>=async(
         data
     )=>{
-        await create({
+        await create([{
             ...data,
-        });
+        }]);
         reset();
     }
 

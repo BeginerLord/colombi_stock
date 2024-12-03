@@ -1,7 +1,6 @@
-import { Paper } from "@mui/material";
+import { CircularProgress, Paper } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useDeleteSales, useGetSalesActive } from "../../../hooks";
-import DeleteButton from "../../ui/deleteButton";
+import { useGetSalesCanceled } from "../../../hooks";
 
 interface SaleDetail {
   productName: string;
@@ -9,15 +8,8 @@ interface SaleDetail {
   unitPrice: number;
   totalPrice: number;
 }
-
-const BoardActiveSales = () => {
-  const { salesActive, isLoading } = useGetSalesActive();
-  const { deleteSalesMutation: deleteSales, isPending } = useDeleteSales();
-
-  const handleDelete = (saleId: string) => {
-    deleteSales(saleId);
-  };
-
+const BoardSalesCanceled = () => {
+  const { salesCanceled, isLoading } = useGetSalesCanceled();
   const columns: GridColDef[] = [
     { field: "saleId", headerName: "VENTA ID", width: 200 },
     { field: "saleDate", headerName: "FECHA DE VENTA", width: 200 },
@@ -36,30 +28,24 @@ const BoardActiveSales = () => {
               <strong> Total Price:</strong> {detail.totalPrice}
             </div>
           ))}
-         
         </div>
-      ),
-    },{
-      field: "acciones",
-      headerName: "Acciones",
-      width: 150,
-      renderCell: (params) => (
-        <DeleteButton onDelete={() => handleDelete(params.row.saleId)} />
       ),
     },
   ];
 
-  const rows = salesActive?.map((sale) => ({
+  const rows = salesCanceled?.map((sale) => ({
     id: sale.saleId,
     saleId: sale.saleId,
     saleDate: sale.saleDate,
     totalAmount: sale.totalAmount,
     details: sale.details,
   }));
-
   return (
     <Paper sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh',width:'100%', marginTop:'3rem'}}>
-      <DataGrid
+     {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <DataGrid
         rows={rows ? [...rows] : []}
         columns={columns}
         autoPageSize={true}
@@ -87,8 +73,9 @@ const BoardActiveSales = () => {
           },
         }}
       />
+      )}
     </Paper>
   );
 };
 
-export default BoardActiveSales;
+export default BoardSalesCanceled;
