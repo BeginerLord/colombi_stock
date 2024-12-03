@@ -4,7 +4,8 @@ import RegisterCategory from "../../components/uiCategory/FormCategory"
 import { CategoryModelDto } from "../../models/categoryModel";
 import { useUpdateCategoryByCode } from "../../hooks";
 import SideBarComponent from "../../components/ui/sideBar";
-
+import { MenuItemOwner } from "../../constant";
+ 
 const ScreenCategory = () => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryModelDto | null>(null);
   const {updateCategoryByCodeMutation, isPending}= useUpdateCategoryByCode();
@@ -18,18 +19,10 @@ const ScreenCategory = () => {
     }
   };
 
-  const menuItems = [
-    { text: "Gestión de categoria", path: "/categoria" },
-
-    { text: "Gestión de proveedores", path: "/provedores" },
-    { text: "Gestión de productos", path: "/productos" },
-    { text: "Productos bajo stock", path: "/productos-low-stock" },
-
-    // otros elementos del menú
-  ];
+  
   return (
     <>
-    <SideBarComponent menuItems={menuItems} />
+    <SideBarComponent menuItems={MenuItemOwner} />
       <RegisterCategory
         selectedCategory={selectedCategory}
         updateCategory={handleUpdateCategory}
