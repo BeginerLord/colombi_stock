@@ -2,8 +2,8 @@ import { scheduleApi } from "../../api";
 import { Sales, SalesCreate } from "../../models/salesModel";
 
 export const CreateSales = async (sales: SalesCreate[]) => {
-  const { data } = await scheduleApi.post("/sales",sales);
-  return data as SalesCreate[];
+  const { data } = await scheduleApi.post("/sales",sales,{responseType: 'blob',});
+  return data;
 };
  
 export const GetSalesCanceled = async (): Promise<Sales[]> => {
