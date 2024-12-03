@@ -8,7 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Button, FormControl, InputLabel, TextField } from "@mui/material";
 import { useState } from "react";
 
-const ResgisterSale = () => {
+const  ResgisterSale = () => {
   const { createSalesMutation: create, isPending } = useCreateSales();
   const { products, isLoading } = useGetAllProducts();
   const [selectedProducts, setSelectedProducts] = useState<ProductModeltDto[]>(
@@ -87,7 +87,7 @@ const ResgisterSale = () => {
     <div className={styles.container}>
       <h1 className={styles.title}> GENERAR VENTA</h1>
       <form onSubmit={handleSubmit(createSales)}>
-        <FormControl sx={{ width: "300px", marginRight: "16px" }}>
+      <FormControl sx={{ width: "300px", marginRight: "16px" }}>
           <InputLabel id="code-product-label">codigo del producto</InputLabel>
           <Select
             labelId="code-product-label"
@@ -97,7 +97,7 @@ const ResgisterSale = () => {
           >
             {products?.content.map((product) => (
               <MenuItem key={product.code} value={product.code}>
-                {product.code}
+              nombre : {product.name}  codigo :{product.code}
               </MenuItem>
             )) || []}
           </Select>
