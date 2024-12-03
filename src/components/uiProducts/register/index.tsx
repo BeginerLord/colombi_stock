@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useCreateProduct, useGetAllCategories, UseGetAllSuppliers, useUpdateProductByCode } from "../../../hooks";
+import { useCreateProduct, useGetAllCategories, UseGetAllSuppliers } from "../../../hooks";
 import { TextInput, SelectInput } from "../../ui/inputRegister";
 import ButtonComponent from "../../ui/button";
 import { ProductModeltDto } from "../../../models";

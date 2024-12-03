@@ -5,17 +5,10 @@ import { ProductModeltDto } from '../../models';
 
 import styles from "./productLow.module.css";
 import SideBarComponent from "../ui/sideBar";
-const ProductLowStock = () => {
+import { MenuItemOwner } from "../../constant";
+ const ProductLowStock = () => {
   const { product, isLoading: isLoadingProducts } = UseGetProductByCodeLowStock();
-  const menuItems = [
-    { text: "Gestión de categoria", path: "/categoria" },
-
-    { text: "Gestión de proveedores", path: "/provedores" },
-    { text: "Gestión de productos", path: "/productos" },
-    { text: "Productos bajo stock", path: "/productos-low-stock" },
-
-    // otros elementos del menú
-  ];
+  
   if (isLoadingProducts) {
     return <div>Loading...</div>;
   }
@@ -53,7 +46,7 @@ const ProductLowStock = () => {
 
   return (
     <div >
-                  <SideBarComponent menuItems={menuItems} />
+                  <SideBarComponent menuItems={MenuItemOwner} />
 
     <div className={styles.container}>
 
