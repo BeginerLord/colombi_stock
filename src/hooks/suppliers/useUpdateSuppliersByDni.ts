@@ -5,16 +5,16 @@ import { UpdateSuppliersByDni } from "../../services/suppliers";
 export const useUpdateSuppliersByDni = () => {
   const queryClient = useQueryClient();
 
-  const { mutate: updateSuppliersByDniMutation, isPending } = useMutation({
+  const { mutate: updateSuppliersByDniMutation, isLoading: isPending } = useMutation({
     mutationFn: ({
       dni,
       suppliers,
     }: {
       dni: string;
       suppliers: SuppliersModel;
-    }) => UpdateSuppliersByDni(dni, suppliers), // Asegúrate de que la función acepte estos parámetros
+    }) => UpdateSuppliersByDni(dni, suppliers),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["suppliers"] }); // Inválida la cache relacionada con 'suppliers'
+      queryClient.invalidateQueries({ queryKey: ["suppliers"] });
     },
   });
 
