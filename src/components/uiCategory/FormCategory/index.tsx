@@ -12,11 +12,15 @@ interface RegisterCategoryProps {
   isUpdating: boolean;
 }
 
-const RegisterCategory = ({selectedCategory,updateCategory,isUpdating,}: RegisterCategoryProps) => {
-
-  
-  const {isPending:isPendingCreate,createCategoryMutation:create }= useCreateCategory();
-
+const RegisterCategory = ({
+  selectedCategory,
+  updateCategory,
+  isUpdating,
+}: RegisterCategoryProps) => {
+  const {
+    isPending: isPendingCreate,
+    createCategoryMutation: create,
+  } = useCreateCategory();
 
   const {
     register,
@@ -43,7 +47,8 @@ const RegisterCategory = ({selectedCategory,updateCategory,isUpdating,}: Registe
     reset();
   };
 
-  const messag = "campo obligatorio";
+  const messag = "Campo obligatorio";
+  const minLengthMessage = "El código debe tener al menos 4 caracteres";
 
   return (
     <div className={styles.container}>
@@ -53,18 +58,24 @@ const RegisterCategory = ({selectedCategory,updateCategory,isUpdating,}: Registe
         {errors.name && <span>{messag} </span>}
 
         <TextInput
-          label="Descripcion"
+          label="Descripción"
           type="text"
           {...register("description", { required: true })}
         />
         {errors.description && <span>{messag}</span>}
 
         <TextInput
-          label="Codigo manual"
-          type="number"
-          {...register("code", { required: true })}
+          label="Código manual"
+          type="text"
+          {...register("code", {
+            required: true,
+            minLength: {
+              value: 4,
+              message: minLengthMessage,
+            },
+          })}
         />
-        {errors.code && <span>This field is required</span>}
+        {errors.code && <span>{errors.code.message || messag}</span>}
 
         <ButtonComponet name="Enviar" type="submit" />
       </form>

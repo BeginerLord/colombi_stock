@@ -18,9 +18,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/provedores" element={<Suppliers />} />
-        <Route path="/" element={<Suppliers />} />
         <Route path="/stock-day" element={<StockToday />} />
         <Route path="/stock-trans" element={<StockMovementTransation />} />
+        <Route path="/" element={<Products />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/stock-all" element={<StockAll />} />
         <Route path="/categoria" element={<ScreenCategory />} />
         <Route path="/ventas" element={<SalesScreen />} />
